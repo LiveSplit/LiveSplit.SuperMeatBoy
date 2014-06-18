@@ -85,6 +85,7 @@ namespace LiveSplit.UI.Components
                 {
                     Game = process;
                 }
+                OldTitleScreenShowing = false;
             }
 
             if (Model == null)
@@ -164,7 +165,7 @@ namespace LiveSplit.UI.Components
                         }
                         else
                         {
-                            if (levelType != 0 || chapterID == 7)
+                            if ((levelType != 0 && levelType != 10) || chapterID == 7)
                             {
                                 if (((levelType <= 1) ? (levelID == 20) : true) 
                                     && !isInALevel 
