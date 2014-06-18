@@ -62,6 +62,7 @@ namespace LiveSplit.UI.Components
         public int OldChapterSelectID { get; set; }
         public bool WasAtLevelEnd { get; set; }
         public bool WasAtLevelSelect { get; set; }
+        public bool WasInALevel { get; set; }
         public bool OldCreditsPlaying { get; set; }
         public bool OldTitleScreenShowing { get; set; }
 
@@ -165,7 +166,11 @@ namespace LiveSplit.UI.Components
                         {
                             if (levelType != 0 || chapterID == 7)
                             {
-                                if (((levelType <= 1) ? (levelID == 20) : true) && !isInALevel && !isAtLevelSelect && WasAtLevelSelect)
+                                if (((levelType <= 1) ? (levelID == 20) : true) 
+                                    && !isInALevel 
+                                    && (levelID == 20 && state.CurrentSplitIndex == state.Run.Count - 1 
+                                        ? WasInALevel //Split earlier for Cotton Alley if it's the last split
+                                        : (!isAtLevelSelect && WasAtLevelSelect)))
                                     Model.Split(); //Dark World or Cotton Alley
                             }
                             else if (!creditsPlaying && OldCreditsPlaying)
@@ -196,6 +201,7 @@ namespace LiveSplit.UI.Components
                 OldChapterSelectID = chapterSelectID;
                 OldCreditsPlaying = creditsPlaying;
                 WasAtLevelSelect = isAtLevelSelect;
+                WasInALevel = isInALevel;
                 OldTitleScreenShowing = titleScreenShowing;
             }
         }
