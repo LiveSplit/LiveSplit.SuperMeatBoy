@@ -1,6 +1,4 @@
-﻿//#define GAME_TIME
-
-using LiveSplit.GrooveCity;
+﻿using LiveSplit.GrooveCity;
 using LiveSplit.Model;
 using LiveSplit.Options;
 using LiveSplit.TimeFormatters;
@@ -85,11 +83,6 @@ namespace LiveSplit.UI.Components
                     Game = process;
                 }
             }
-
-#if GAME_TIME
-            if (!state.Run.CustomComparisons.Contains("Game Time"))
-                state.Run.CustomComparisons.Add("Game Time");
-#endif
 
             if (Model == null)
             {
@@ -188,11 +181,9 @@ namespace LiveSplit.UI.Components
                     }
                 }
 
-#if GAME_TIME
-                state.IsLoading = true;
+                state.IsGameTimePaused = true;
                 var currentGameTime = GameTime + (WasAtLevelEnd ? FinishedLevelTime : levelTime);
-                state.CurrentGameTime = currentGameTime < TimeSpan.Zero ? TimeSpan.Zero : currentGameTime;
-#endif
+                state.SetGameTime(currentGameTime < TimeSpan.Zero ? TimeSpan.Zero : currentGameTime);
 
                 //WasTimeRunning = isTimeRunning;
                 //OldLevelTime = levelTime;
